@@ -16,6 +16,7 @@
       position: relative;
       overflow: hidden;
       transition: all 1s ease;
+      text-align: center; /* Center text on small screens */
     }
 
     body.normal {
@@ -42,14 +43,14 @@
 
     /* Timer styling */
     #timer {
-      text-align: center;
-      white-space: nowrap; /* Prevents breaking the text into multiple lines */
+      display: inline-block;
+      max-width: 100%;
+      word-wrap: break-word; /* Allows text to break onto new lines */
     }
 
     .doomsday #timer {
       text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
     }
-
   </style>
 </head>
 <body class="normal">
@@ -84,3 +85,4 @@
   </script>
 </body>
 </html>
+
