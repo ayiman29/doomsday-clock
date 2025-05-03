@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Doomsday Clock</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/custom_favicon.png" type="image/png">
+  
   <style>
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -17,7 +21,7 @@
       overflow: hidden;
       transition: all 1s ease;
       text-align: center;
-      background: linear-gradient(135deg, #f4f4f4, #e0e0e0);  /* Subtle gradient background */
+      background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
     }
 
     body.normal {
@@ -48,9 +52,9 @@
       position: relative;
       padding: 20px;
       color: #fff;
-      text-shadow: 0 0 5px #fff, 0 0 10px #ff0000; /* Soft text shadow to enhance readability */
+      text-shadow: 0 0 5px #fff, 0 0 10px #ff0000;
       font-weight: bold;
-      margin-top: 20px; /* Adding space below the clock */
+      margin-top: 20px;
     }
 
     .doomsday #timer {
@@ -58,13 +62,11 @@
       animation: shake 0.5s infinite alternate;
     }
 
-    /* Glowing effect for the normal state */
     body.normal #timer {
-      color: #111; /* Black color for normal state */
-      text-shadow: 0 0 15px #fff, 0 0 25px #fff, 0 0 35px #ff99ff, 0 0 50px #ff99ff; /* Glowing effect */
+      color: #111;
+      text-shadow: 0 0 15px #fff, 0 0 25px #fff, 0 0 35px #ff99ff, 0 0 50px #ff99ff;
     }
 
-    /* Analog seconds clock */
     #clock {
       position: absolute;
       width: 320px;
@@ -77,19 +79,18 @@
       z-index: 0;
       pointer-events: none;
       background: rgba(255, 255, 255, 0.02);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);  /* Glow effect removed for normal state */
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
     }
 
-    /* Keep the clock size the same in both normal and doomsday state */
     body.normal #clock,
     body.doomsday #clock {
       width: 320px;
-      height: 320px; /* Ensure the clock stays the same size */
+      height: 320px;
     }
 
     body.doomsday #clock {
       border-color: rgba(255, 0, 0, 0.5);
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);  /* More intense glow for doomsday */
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
     }
 
     #second-hand {
@@ -107,13 +108,44 @@
       background: rgba(255, 0, 0, 0.8);
     }
 
-    /* Position for the havoc timer text */
     #current-havoc {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      font-size: 0.50rem; /* Smaller text size */
+      font-size: 0.70rem;
       color: white;
+    }
+
+    #play-button {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      z-index: 5;
+    }
+
+    #play-button img {
+      width: 50px;
+      height: 50px;
+      transition: transform 0.5s ease;
+    }
+
+    #play-button span {
+      margin-top: 10px;
+      color: #ff4444;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    #play-button.playing img {
+      transform: rotate(360deg);
     }
   </style>
 </head>
@@ -123,10 +155,31 @@
   </div>
   <div id="timer">Loading...</div>
 
-  <div id="current-havoc">Current havoc lasted for 3 Days 5 Hours 40 Minutes 0 Seconds.</div>
+  <div id="current-havoc">
+    Current havoc lasted for 3 Days 5 Hours 40 Minutes 0 Seconds.<br>
+    Doomsday status: Overturned after 6 Days 22 Hours 3 Minutes 0 Seconds.
+  </div>
+
+  <div id="play-button" class="normal">
+    <img src="assets/images/disc.png" alt="Disc Icon" id="disc-icon">
+    <span>Play Me</span>
+  </div>
 
   <script>
     const startDate = new Date('2025-04-26T09:50:00');
+    const playButton = document.getElementById('play-button');
+    const discIcon = document.getElementById('disc-icon');
+
+    playButton.addEventListener('click', () => {
+      const audio = new Audio('assets/music/music.mp3');
+      if (playButton.classList.contains('playing')) {
+        audio.pause();
+        playButton.classList.remove('playing');
+      } else {
+        audio.play();
+        playButton.classList.add('playing');
+      }
+    });
 
     function updateTimer() {
       const now = new Date();
