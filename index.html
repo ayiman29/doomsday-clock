@@ -170,8 +170,10 @@
     const playButton = document.getElementById('play-button');
     const discIcon = document.getElementById('disc-icon');
 
+    const audio = new Audio('assets/music/music.mp3');
+    audio.loop = true;
+
     playButton.addEventListener('click', () => {
-      const audio = new Audio('assets/music/music.mp3');
       if (playButton.classList.contains('playing')) {
         audio.pause();
         playButton.classList.remove('playing');
